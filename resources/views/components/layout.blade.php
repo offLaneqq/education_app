@@ -8,10 +8,10 @@
     <title>Laravel Test</title>
 </head>
 
-<body>
+<body class="bg-slate-100 dark:bg-slate-800">
     <x-navbar />
     
-    <div class="max-w-screen-xl p-4 mx-auto">
+    <div class="max-w-6xl p-4 mx-auto">
         {{ $slot }}
     </div>
 </body>
