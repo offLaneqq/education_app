@@ -1,0 +1,3 @@
+sudo find /home/ -type d -user root -exec sudo chown -R $USER: {}  \;
+
+sudo chown -R dmytro education_app
