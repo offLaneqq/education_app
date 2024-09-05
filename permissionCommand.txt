@@ -1,3 +1,5 @@
 sudo find /home/ -type d -user root -exec sudo chown -R $USER: {}  \;
 
 sudo chown -R dmytro education_app
+
+sudo chmod -R 777 storage - for resolve error file_put_contents Failed to open stream: Permission denied
