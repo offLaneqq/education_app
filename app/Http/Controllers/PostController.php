@@ -14,7 +14,9 @@ class PostController extends Controller
     {
         // Main page
         // Get all posts
-        return view('posts.index');
+        $posts = Post::all();
+
+        return view('posts.index', ['posts' => $posts]);
     }
 
     /**
@@ -30,10 +32,14 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        Post::create([
-            'title' => $request->title,
-            'content' => $request->content
+
+        // 'title' and 'content' is a name of tag input and textarea from create page
+        $validated_data = $request->validate([
+            'title' => ['required', 'min:5', 'max:255'],
+            'content' => ['required', 'min:10']
         ]);
+
+        Post::create($validated_data);
 
         // return redirect()->route('posts.index');     // for return not empty page
         return to_route('posts.index');     // another way
@@ -42,25 +48,37 @@ class PostController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Post $post)
     {
-        return view('posts.show');
+
+        // $post = Post::findOrFail($id);
+
+        return view('posts.show', ['post' => $post]);
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Post $post)
     {
-        return view('posts.edit');
+        return view('posts.edit', ['post' => $post]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Post $post)
     {
-        //
+        
+        $validated_data = $request->validate([
+            'title' => ['required', 'min:5', 'max:255'],
+            'content' => ['required', 'min:10']
+        ]);
+
+        $post->update($validated_data);
+
+        return to_route('posts.index');
+
     }
 
     /**
