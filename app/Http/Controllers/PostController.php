@@ -24,6 +24,12 @@ class PostController extends Controller
      */
     public function create()
     {
+
+        // Add check create posts can only auth users
+        if(!auth()->check()) {
+            return to_route('login');
+        }
+
         return view('posts.create');
     }
 
