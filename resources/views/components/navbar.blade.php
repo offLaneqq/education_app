@@ -16,9 +16,23 @@
         <div class="hidden w-full md:block md:w-auto" id="navbar-default">
             <ul
                 class="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
-                
+
                 <x-navbar-link href="/" :active="request()->is('/')">Home</x-navbar-link>
                 <x-navbar-link href="/posts" :active="request()->is('posts')">Posts</x-navbar-link>
+
+                @guest
+                    <x-navbar-link href="{{ route('login') }}" :active="request()->is('login')">Login</x-navbar-link>
+                    <x-navbar-link href="{{ route('register') }}"
+                        :active="request()->is('register')">Register</x-navbar-link>
+                @endguest
+
+                @auth
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <x-navbar-link href="{{ route('logout') }}"
+                            :active="false" onclick="event.preventDefault(); this.closest('form').submit();">Logout</x-navbar-link>
+                    </form>
+                @endauth
         </div>
     </div>
 </nav>
