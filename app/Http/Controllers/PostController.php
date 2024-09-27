@@ -45,7 +45,8 @@ class PostController extends Controller
             'content' => ['required', 'min:10']
         ]);
 
-        Post::create($validated_data);
+        // add user_id for $validated_data
+        auth()->user()->posts()->create($validated_data);
 
         // return redirect()->route('posts.index');     // for return not empty page
         return to_route('posts.index');     // another way
@@ -67,6 +68,12 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
+
+        // If post edit not author of post - call 403 error
+        if($post->userId !== auth()->id()) {
+            abort(403);
+        }
+
         return view('posts.edit', ['post' => $post]);
     }
 
