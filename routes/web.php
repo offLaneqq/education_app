@@ -17,3 +17,5 @@ Route::post('/register', [RegisterUserController::class, 'store'])->name('regist
 
 Route::get('/login', [LoginUserController::class, 'login'])->name('login');
 Route::post('/login', [LoginUserController::class, 'store'])->name('login.store');
+
+Route::post('/logout', [LoginUserController::class, 'logout'])->name('logout');
