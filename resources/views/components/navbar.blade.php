@@ -19,6 +19,10 @@
 
                 <x-navbar-link href="/" :active="request()->is('/')">Home</x-navbar-link>
                 <x-navbar-link href="/posts" :active="request()->is('posts')">Posts</x-navbar-link>
+                @if (Auth::check() && Auth::user()->is_admin)
+                <x-navbar-link href="/admin" :active="request()->is('admin')">Admin</x-navbar-link>
+
+                @endif
 
                 @guest
                     <x-navbar-link href="{{ route('login') }}" :active="request()->is('login')">Login</x-navbar-link>
@@ -27,11 +31,12 @@
                 @endguest
 
                 @auth
-                    <span class="text-blue dark:text-blue-400 font-semibold" > {{ Auth::user()->name }} </span>
+                    <span class="text-blue dark:text-blue-400 font-semibold"> {{ Auth::user()->name }} </span>
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf
                         <x-navbar-link href="{{ route('logout') }}"
-                            :active="false" onclick="event.preventDefault(); this.closest('form').submit();">Logout</x-navbar-link>
+                                :active="false" onclick="event.preventDefault(); this.closest('form').submit();">
+                                Logout</x-navbar-link>
                     </form>
                 @endauth
         </div>
