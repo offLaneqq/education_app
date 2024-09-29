@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\LoginUserController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\RegisterUserController;
@@ -25,16 +26,14 @@ Route::middleware('auth')->group(function () {
     // })->middleware('can:is-admin')->name('admin');
 
     // Using gate from ProviderService
-    Route::get('/admin', function () {
-        return 'You are logged as admin';
-    })->can('is_admin')->name('admin');
+    Route::get('/admin', [AdminController::class, 'index'])->middleware('is-admin')->name('admin');
 });
 
 // Group without middleware. Everyone can see all post and open the post
 Route::get('/posts', [PostController::class, 'index'])->name('posts.index');
 
 // Test connect custom middleware 'can-view-post' for show function 
-Route::get('/posts/{post}', [PostController::class, 'show'])->middleware('can-view-post')->name('posts.show');
+Route::get('/posts/{post}', [PostController::class, 'show'])->name('posts.show');
 
 // Group with middlewate for guest. ONLY GUEST CAN REGISTER OR LOGIN
 Route::middleware('guest')->group(function () {
