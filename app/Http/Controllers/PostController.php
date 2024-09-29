@@ -31,6 +31,9 @@ class PostController extends Controller
             return to_route('login');
         }
 
+        // test func
+        session()->put('url.intended', url()->previous());
+
         return view('posts.create');
     }
 
@@ -50,7 +53,8 @@ class PostController extends Controller
         auth()->user()->posts()->create($validated_data);
 
         // return redirect()->route('posts.index');     // for return not empty page
-        return to_route('posts.index');     // another way
+        // return to_route('posts.index');     // another way
+        return redirect(session()->get('url.intended'));
     }
 
     /**
