@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class PostController extends Controller
 {
@@ -70,9 +71,13 @@ class PostController extends Controller
     {
 
         // If post edit not author of post - call 403 error
-        if($post->userId !== auth()->id()) {
-            abort(403);
-        }
+        // if($post->userId !== auth()->id()) {
+        //     abort(403);
+        // }
+
+        // Register PostPolicy(update post if u not author. fixed) using Gate
+        // Not actual 
+        // Gate::authorize('update', $post);
 
         return view('posts.edit', ['post' => $post]);
     }
@@ -82,6 +87,8 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
+
+        Gate::authorize('update', $post);
         
         $validated_data = $request->validate([
             'title' => ['required', 'min:5', 'max:255'],
@@ -99,6 +106,9 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
+
+        Gate::authorize('delete', $post);
+
         $post->delete();
 
         return to_route('posts.index', ['post' => $post]);
