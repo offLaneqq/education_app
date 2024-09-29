@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AdminPostController;
 use App\Http\Controllers\LoginUserController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\RegisterUserController;
@@ -25,8 +26,14 @@ Route::middleware('auth')->group(function () {
     //     return 'You are logged as admin';
     // })->middleware('can:is-admin')->name('admin');
 
-    // Using gate from ProviderService
-    Route::get('/admin', [AdminController::class, 'index'])->middleware('is-admin')->name('admin');
+    // Using admin middleware
+    Route::middleware('is-admin')->group(function () {
+        Route::get('/admin', [AdminController::class, 'index'])->name('admin');
+
+        Route::get('/admin/posts/{post}/edit', [AdminPostController::class, 'edit'])->name('admin.posts.edit');
+        Route::put('/admin/posts/{post}', [AdminPostController::class, 'update'])->name('admin.posts.update');
+        Route::delete('/admin/posts/{post}', [AdminPostController::class, 'destroy'])->name('admin.posts.destroy');
+    });
 });
 
 // Group without middleware. Everyone can see all post and open the post
