@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\File;
 
 class PostController extends Controller
 {
@@ -27,7 +28,7 @@ class PostController extends Controller
     {
 
         // Add check create posts can only auth users
-        if(!auth()->check()) {
+        if (!auth()->check()) {
             return to_route('login');
         }
 
@@ -46,8 +47,11 @@ class PostController extends Controller
         // 'title' and 'content' is a name of tag input and textarea from create page
         $validated_data = $request->validate([
             'title' => ['required', 'min:5', 'max:255'],
-            'content' => ['required', 'min:10']
+            'content' => ['required', 'min:10'],
+            'thumbnail' => ['required', 'image']
         ]);
+
+        $validated_data['thumbnail'] = $request->file('thumbnail')->store('thumbnails');
 
         // add user_id for $validated_data
         auth()->user()->posts()->create($validated_data);
@@ -73,16 +77,6 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-
-        // If post edit not author of post - call 403 error
-        // if($post->userId !== auth()->id()) {
-        //     abort(403);
-        // }
-
-        // Register PostPolicy(update post if u not author. fixed) using Gate
-        // Not actual 
-        // Gate::authorize('update', $post);
-
         return view('posts.edit', ['post' => $post]);
     }
 
@@ -93,11 +87,17 @@ class PostController extends Controller
     {
 
         Gate::authorize('update', $post);
-        
+
         $validated_data = $request->validate([
             'title' => ['required', 'min:5', 'max:255'],
-            'content' => ['required', 'min:10']
+            'content' => ['required', 'min:10'],
+            'thumbnail' => ['sometimes', 'image']
         ]);
+
+        if ($request->hasFile('thumbnail')) {
+            File::delete(storage_path("app/public/" . $post->thumbnail));
+            $validated_data['thumbnail'] = $request->file('thumbnail')->store('thumbnails');
+        }
 
         $post->update($validated_data);
 
@@ -113,6 +113,7 @@ class PostController extends Controller
 
         Gate::authorize('delete', $post);
 
+        File::delete(storage_path("app/public/" . $post->thumbnail));
         $post->delete();
 
         return to_route('posts.index', ['post' => $post]);

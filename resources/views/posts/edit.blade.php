@@ -2,7 +2,7 @@
     <x-header>Post Edit Page</x-header>
     <div class="max-w-2xl mx-auto p-4 bg-slate-200 dark:bg-gray-900 rounded-lg">
 
-        <form action="{{ route('posts.update', $post->id) }}" method="POST">
+        <form action="{{ route('posts.update', $post->id) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
 
@@ -26,6 +26,21 @@
                     placeholder="Write your thoughts here...">{{ old('content', $post->content) }}</textarea>
 
                 @error('content')
+                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                @enderror
+
+            </div>
+
+            <div class="mb-6">
+
+                <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="thumbnail">Upload
+                    thumbnail</label>
+                <input
+                    class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                    id="thumbnail" name="thumbnail" type="file">
+
+
+                @error('thumbnail')
                     <span class="text-red-500 text-sm">{{ $message }}</span>
                 @enderror
 

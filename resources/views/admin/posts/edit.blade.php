@@ -32,6 +32,21 @@
             </div>
 
             <div class="mb-6">
+
+                <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="thumbnail">Upload
+                    thumbnail</label>
+                <input
+                    class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                    id="thumbnail" name="thumbnail" type="file">
+
+
+                @error('thumbnail')
+                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                @enderror
+
+            </div>
+
+            <div class="mb-6">
                 <button type="sumbit"
                     class="text-white bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Update</button>
             </div>
