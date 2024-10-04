@@ -20,7 +20,7 @@
                 <x-navbar-link href="/" :active="request()->is('/')">Home</x-navbar-link>
                 <x-navbar-link href="/posts" :active="request()->is('posts')">Posts</x-navbar-link>
                 @if (Auth::check() && Auth::user()->is_admin)
-                <x-navbar-link href="/admin" :active="request()->is('admin')">Admin</x-navbar-link>
+                <x-navbar-link href="/admin" :active="request()->is('admin')">Admin panel</x-navbar-link>
 
                 @endif
 
