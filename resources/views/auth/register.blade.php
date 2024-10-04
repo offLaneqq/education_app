@@ -6,9 +6,9 @@
             @csrf
 
             <div class="mb-6">
-                <label for="default-input"
+                <label for="name-input"
                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
-                <input type="text" id="default-input" name="name"
+                <input type="name" id="name-input" name="name"
                     class="bg-gray-50 border  text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
 
                 @error('name')
@@ -18,9 +18,9 @@
             </div>
 
             <div class="mb-6">
-                <label for="default-input"
+                <label for="email-input"
                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
-                <input type="email" id="default-input" name="email"
+                <input type="email" id="email-input" name="email"
                     class="bg-gray-50 border  text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
 
                 @error('email')
@@ -30,9 +30,9 @@
             </div>
 
             <div class="mb-6">
-                <label for="default-input"
+                <label for="password-input"
                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
-                <input type="password" id="default-input" name="password"
+                <input type="password" id="password-input" name="password"
                     class="bg-gray-50 border  text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
 
                 @error('password')
@@ -42,9 +42,9 @@
             </div>
 
             <div class="mb-6">
-                <label for="default-input"
+                <label for="password-confirmation-input"
                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password Confirmation</label>
-                <input type="password" id="default-input" name="password_confirmation"
+                <input type="password" id="password-confirmation-input" name="password_confirmation"
                     class="bg-gray-50 border  text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
 
                 @error('password_confirmation')

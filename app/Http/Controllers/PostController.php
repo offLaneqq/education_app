@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Mail\PostMail;
+
+use App\Jobs\SendNewPostMailJob;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Mail;
 
 class PostController extends Controller
 {
@@ -58,8 +58,9 @@ class PostController extends Controller
         // add user_id for $validated_data
         auth()->user()->posts()->create($validated_data);
 
-        // Take email field from auth user. Then call method send. Method send create instance of class and send mail.
-        Mail::to(auth()->user()->email)->send(new PostMail(['name' => auth()->user()->name, 'title' => $validated_data['title']]));
+        // Create job for mail(it send letter later, not now). Read how to work dispatch
+        // Use php artisan queue:work for immediately compliting all jobs
+        dispatch(new SendNewPostMailJob(['email' => auth()->user()->email, 'name' => auth()->user()->name, 'title' => $validated_data['title']]));
 
         // return redirect()->route('posts.index');     // for return not empty page
         // return to_route('posts.index');     // another way
