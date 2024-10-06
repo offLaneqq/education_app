@@ -18,7 +18,7 @@ class PostController extends Controller
     {
         // Main page
         // Get all posts
-        $posts = Post::all();
+        $posts = Post::paginate(6);
 
         return view('posts.index', ['posts' => $posts]);
     }
@@ -64,7 +64,7 @@ class PostController extends Controller
 
         // return redirect()->route('posts.index');     // for return not empty page
         // return to_route('posts.index');     // another way
-        return redirect(session()->get('url.intended'));
+        return redirect(session()->get('url.intended'))->with('message', 'Post created successfully ');
     }
 
     /**
@@ -107,7 +107,7 @@ class PostController extends Controller
 
         $post->update($validated_data);
 
-        return to_route('posts.index');
+        return to_route('posts.index')->with('message', 'Post updated successfully');;
 
     }
 
