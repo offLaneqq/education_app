@@ -8,6 +8,7 @@ use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Cache;
 
 class PostController extends Controller
 {
@@ -18,7 +19,12 @@ class PostController extends Controller
     {
         // Main page
         // Get all posts
-        $posts = Post::paginate(6);
+
+        // Use Cache for speed render page in current time
+        $posts = Cache::remember('posts', 10, function () {
+            sleep(4);
+            return Post::paginate(6);
+        });
 
         return view('posts.index', ['posts' => $posts]);
     }
@@ -104,7 +110,8 @@ class PostController extends Controller
 
         $post->update($validated_data);
 
-        return to_route('posts.index')->with('message', 'Post updated successfully');;
+        return to_route('posts.index')->with('message', 'Post updated successfully');
+        ;
 
     }
 
