@@ -29,7 +29,12 @@
             Title: {{ $post->title }}
         </h1>
 
-        <main class="max-w-6xl mx-auto mt-6 lg:mt-20 space-y-6">
+        <p class="mt-2 text-gray-900 dark:text-white text-l font-semibold text-center">
+            Created by <span class="text-blue-300">{{ $post->user->name }}</span>. Last update:
+            <span class="text-green-200">{{ $post->updated_at->format('d.m.Y') }}</span>
+        </p>
+
+        <main class="max-w-6xl mx-auto mt-0 lg:mt-10 space-y-6">
 
             <p class="mt-3 text-lg text-gray-900 md:text-xl dark:text-white text-center">
                 Content: {{ $post->content }}
